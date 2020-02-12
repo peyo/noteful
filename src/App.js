@@ -28,9 +28,9 @@ class App extends React.Component {
             }
           />
           <Route
-            path={`/note/:noteId`}
+            path={`/note/:id`}
             render={(routerProps) =>
-              <Note noteId={routerProps.match.params.noteId} />
+              <Note id={routerProps.match.params.id} />
             }
           />
         </main>

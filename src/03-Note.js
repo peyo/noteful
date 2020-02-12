@@ -4,8 +4,7 @@ import Store from "./Store";
 
 class Note extends React.Component {
   render() {
-    console.log(this.props.noteId)
-    const note = Store.notes.find(note => note.id === this.props.noteId)
+    const note = Store.notes.find(note => note.id === this.props.id)
     const folder = Store.folders.find(folder => folder.id === note.folderId)
 
     return (
