@@ -1,0 +1,135 @@
+header {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: center;
+  border-bottom: 1px solid black;
+}
+
+.main, .folder, .note {
+  display: flex;
+  flex: 1;
+}
+
+.main-sidebar {
+  order: 0;
+  flex: 0 0 25%;
+  justify-content: center;
+  height: 100vh;
+}
+
+.main-sidebar-foldername {
+  margin: 30px;
+  text-align: center;
+  font-weight: bold;
+}
+
+.folder-div {
+  padding: 3px;
+  margin: 0 12px 12px 12px;
+  text-align: center;
+}
+
+.folderlist {
+  list-style-type: none;
+  margin: 0;
+  padding: 30px;
+  padding-bottom: 0;
+}
+
+.folder-button {
+  border: 1px solid black;
+  background: white;
+  padding: 3px;
+}
+
+.folder-button.active {
+  background: lightgrey;
+}
+
+.main-sidebar-button-div {
+  padding: 3px;
+  margin: 0 27px 27px 27px;
+  text-align: center;
+}
+
+.main-sidebar-button {
+  border: 1px solid black;
+  background: white;
+  padding: 3px;
+}
+
+.main-page {
+  flex: 1 1;
+  order: 1;
+  overflow-y: auto;
+  border-left: 1px solid black;
+}
+
+.main-page-list {
+  list-style-type: none;
+  margin: 0;
+  padding: 30px;
+  padding-bottom: 0;
+}
+
+.note-item {
+  margin: 0 12px 12px 12px;
+  padding: 9px;
+  border: 1px solid black;
+  position: relative;
+}
+
+.note-content {
+  padding: 0 21px 21px 21px;
+}
+
+.note-date {
+  font-size: small;
+}
+
+.note-button {
+  border: 1px solid black;
+  background-color: white;
+  margin: 0 9px 9px 0;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  padding: 3px;
+}
+
+.main-page-button {
+  border: 1px solid black;
+  background-color: white;
+  margin: 0 0 30px 42px;
+}
+
+@media only screen and (max-width: 580px) {
+  .main, .folder, .note {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .main-page {
+    border-top: 1px solid black;
+    border-left: none;
+  }
+  
+  button {
+    font-size: 2vw;
+  }
+
+  .folderlist {
+    margin: 0;
+  }
+
+  button.note-button {
+    margin: 3px 0 0 0;
+    position: static !important;
+    width: fit-content;
+  }
+
+  .note-item {
+    display: flex;
+    flex-direction: column;
+  }
+}
