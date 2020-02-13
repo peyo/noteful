@@ -9,7 +9,7 @@ class Folder extends React.Component {
 
   render() {
     return (
-      <div className="folder">
+      <div className="wrapper-folder">
         <div className="main-sidebar">
           <ul className="folderlist">
             {Store.folders.map(folder =>
@@ -27,9 +27,11 @@ class Folder extends React.Component {
             )}
           </ul>
           <div className="main-sidebar-button-div">
-            <button className="main-sidebar-button">
+            <Link
+              to={"/addfolder"}
+              className="main-sidebar-button" >
               Add Folder
-            </button>
+            </Link>
           </div>
         </div>
         <div className="main-page">
@@ -55,9 +57,11 @@ class Folder extends React.Component {
                 : null
             )}
           </ul>
-          <button className="main-page-button">
+          <Link
+            to={"/addnote"}
+            className="main-page-button">
             Add Note
-          </button>
+            </Link>
         </div>
       </div>
     )

@@ -8,7 +8,7 @@ class Note extends React.Component {
     const folder = Store.folders.find(folder => folder.id === note.folderId)
 
     return (
-      <div className="note">
+      <div className="wrapper-note">
         <div className="main-sidebar">
           <div className="main-sidebar-foldername">
             {folder.name}

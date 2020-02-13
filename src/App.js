@@ -3,6 +3,8 @@ import { Route, Link } from "react-router-dom";
 import Main from "./01-Main";
 import Folder from "./02-Folder";
 import Note from "./03-Note";
+import AddFolder from "./04-AddFolder";
+import AddNote from "./05-AddNote";
 import "./App.css";
 
 class App extends React.Component {
@@ -12,7 +14,9 @@ class App extends React.Component {
         <main>
           <header>
             <h1>
-              <Link to="/">Noteful</Link>
+              <Link
+                className="main"
+                to="/">Noteful</Link>
             </h1>
           </header>
           <Route
@@ -31,6 +35,24 @@ class App extends React.Component {
             path={`/note/:id`}
             render={(routerProps) =>
               <Note id={routerProps.match.params.id} />
+            }
+          />
+          <Route
+            path="/addfolder"
+            render={({ history }) =>
+              <AddFolder
+                onClickAddFolder={this.addFolder}
+                onClickGoBack={() => history.goBack()}
+                onClickCancel={() => history.goBack()} />
+            }
+          />
+          <Route
+            path="/addnote"
+            render={({ history }) =>
+              <AddNote
+                onClickAddFolder={this.addNote}
+                onClickGoBack={() => history.goBack()}
+                onClickCancel={() => history.goBack()} />
             }
           />
         </main>

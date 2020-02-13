@@ -5,29 +5,29 @@ import { Link } from "react-router-dom";
 class Main extends React.Component {
   render() {
     return (
-      <div className="main">
+      <div className="wrapper-main">
         <div className="main-sidebar">
-          <div className="main-sidebar-folder">
-            <ul className="folderlist">
-              {Store.folders.map(folder =>
-                <li
-                  key={folder.id}
-                  className="folder-li">
-                  <div className="folder-div">
-                    <Link
-                      to={`/folder/${folder.id}`}
-                      className="folder-button">
-                      {folder.name}
-                    </Link>
-                  </div>
-                </li>
-              )}
-            </ul>
-            <div className="main-sidebar-button-div">
-              <button className="main-sidebar-button">
-                Add Folder
-            </button>
-            </div>
+          <ul className="folderlist">
+            {Store.folders.map(folder =>
+              <li
+                key={folder.id}
+                className="folder-li">
+                <div className="folder-div">
+                  <Link
+                    to={`/folder/${folder.id}`}
+                    className="folder-button">
+                    {folder.name}
+                  </Link>
+                </div>
+              </li>
+            )}
+          </ul>
+          <div className="main-sidebar-button-div">
+            <Link
+              to={"/addfolder"}
+              className = "main-sidebar-button" >
+              Add Folder
+            </Link>
           </div>
         </div>
         <div className="main-page">
@@ -50,9 +50,11 @@ class Main extends React.Component {
             )}
           </ul>
           <div className="main-page-button-div">
-            <button className="main-page-button">
+            <Link
+              to={"/addnote"}
+              className="main-page-button">
               Add Note
-            </button>
+            </Link>
           </div>
         </div>
       </div>

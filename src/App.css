@@ -1,20 +1,45 @@
 header {
+  position: fixed;
+  width: 100%;
   display: flex;
   flex-flow: row nowrap;
   justify-content: center;
+  background-color: white;
   border-bottom: 1px solid black;
+  z-index: 2;
+  height: 100px;
+  line-height: 50px;
 }
 
-.main, .folder, .note {
+.main, .note-title {
+  text-decoration: none;
+}
+
+.main:link, .note-title:link, .note-button:link, .main-page-button:link, .folder-button:link, .main-sidebar-button:link {
+  color: black;
+}
+
+.main:active, .note-title:active, .note-button:active, .main-page-button:active, .folder-button:active, .main-sidebar-button:active {
+  color: black;
+}
+
+.main:visited, .note-title:visited, .note-button:visited, .main-page-button:visited, .folder-button:visited, .main-sidebar-button:visited {
+  color: black;
+}
+
+.wrapper {
   display: flex;
-  flex: 1;
 }
 
 .main-sidebar {
-  order: 0;
+  position: fixed;
+  width: 25%;
+  height: 100vh;
+  z-index: 1;
+  padding-top: 102px;
   flex: 0 0 25%;
   justify-content: center;
-  height: 100vh;
+  border-right: 1px solid black;
 }
 
 .main-sidebar-foldername {
@@ -36,10 +61,13 @@ header {
   padding-bottom: 0;
 }
 
-.folder-button {
+.folder-button, .main-sidebar-button, .go-back-button, input, textarea, .note-button, .main-page-button, .note-item {
   border: 1px solid black;
   background: white;
   padding: 3px;
+  font-size: medium;
+  text-decoration: none;
+  border-radius: .5em;
 }
 
 .folder-button.active {
@@ -52,20 +80,15 @@ header {
   text-align: center;
 }
 
-.main-sidebar-button {
-  border: 1px solid black;
-  background: white;
-  padding: 3px;
-}
-
-.main-page {
+.main-page, .main-page-addfolder, .main-page-addnote {
   flex: 1 1;
-  order: 1;
-  overflow-y: auto;
-  border-left: 1px solid black;
+  padding-top: 102px;
+  margin-left: 25%;
+  z-index: 0;
+  height: 100%;
 }
 
-.main-page-list {
+.main-page-list, .main-page-list-addfolder, .main-page-list-addnote {
   list-style-type: none;
   margin: 0;
   padding: 30px;
@@ -88,13 +111,10 @@ header {
 }
 
 .note-button {
-  border: 1px solid black;
-  background-color: white;
   margin: 0 9px 9px 0;
   position: absolute;
   bottom: 0;
   right: 0;
-  padding: 3px;
 }
 
 .main-page-button {
@@ -103,15 +123,69 @@ header {
   margin: 0 0 30px 42px;
 }
 
-@media only screen and (max-width: 580px) {
-  .main, .folder, .note {
-    display: flex;
+.main-sidebar-go-back-button {
+  padding: 3px;
+  margin-top: 30px;
+  text-align: center;
+}
+
+.addfolder-form {
+  padding: 30px;
+}
+
+.addfolder-foldername, .addnote-notename, .addnote-notecontent, .addnote-notefolder {
+  margin: 0 0 21px 0;
+}
+
+input, .textarea {
+  width: 300px;
+  border: 1px solid black;
+}
+
+.textarea {
+  height: 180px;
+}
+
+@media only screen and (max-width: 660px) {
+  .wrapper {
     flex-direction: column;
   }
 
+  .main-sidebar {
+    width: 100%;
+    margin: 0;
+    height: auto;
+    padding-top: 100px;
+    border-bottom: 1px solid black;
+    background-color: white;
+  }
+
+  .main-sidebar-go-back-button {
+    margin: 30px;
+  }
+
   .main-page {
-    border-top: 1px solid black;
+    margin: 0;
+    padding-top: 300px;
+    padding-bottom: 33px;
     border-left: none;
+  }
+
+  .main-page-addfolder, .main-page-addnote {
+    margin: 0 auto;
+  }
+
+  .addfolder-form, .addnote-form {
+    margin-left: 0;
+    text-align: center;
+  }
+
+  .main-page-list-addfolder, .main-page-list-addnote {
+    padding-top: 120px;
+  }
+
+  .wrapper-note .main-page {
+    padding-top: 240px;
   }
   
   button {
