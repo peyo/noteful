@@ -1,18 +1,16 @@
 import React from "react";
 import { NavLink, Link } from "react-router-dom";
-import Store from "./Store";
+import NotefulContext from "./00-NotefulContext";
 
 class Folder extends React.Component {
-  static defaultProps = {
-    folderId: ""
-  }
+  static contextType = NotefulContext;
 
   render() {
     return (
       <div className="wrapper-folder">
         <div className="main-sidebar">
           <ul className="folderlist">
-            {Store.folders.map(folder =>
+            {this.context.folders.map(folder =>
               <li
                 key={folder.id}
                 className="folder-li">
@@ -36,8 +34,8 @@ class Folder extends React.Component {
         </div>
         <div className="main-page">
           <ul className="main-page-list">
-            {Store.notes.map((note) =>
-              note.folderId === this.props.folderId
+            {this.context.notes.map((note) =>
+              note.folderId === this.props.match.params.folderId
                 ? <li
                   key={note.id}
                   className="note-item">

@@ -1,22 +1,25 @@
 import React from "react";
 import { withRouter } from "react-router-dom";
+import NotefulContext from "./00-NotefulContext";
 
 class AddFolder extends React.Component {
-  static defaultProps = {
-    onClickAddFolder: () => {}
+  static contextType = NotefulContext;
+  
+  onClickGoBack() {
+    this.props.history.goBack()
   }
-  render() {
-    const {
-      onClickGoBack,
-      onClickCancel
-    } = this.props;
 
+  onClickCancel() {
+    this.props.history.goBack()
+  }
+
+  render() {
     return (
       <div className="wrapper-addfolder">
         <div className="main-sidebar">
           <div className="main-sidebar-go-back-button">
             <button
-              onClick={onClickGoBack}
+              onClick={() => this.onClickGoBack()}
               className="main-sidebar-button">
               Go Back
             </button>
@@ -50,7 +53,7 @@ class AddFolder extends React.Component {
                 <button
                   className="go-back-button"
                   type="button"
-                  onClick={onClickCancel}>
+                  onClick={() => this.onClickCancel()}>
                   Cancel
                 </button>
               </div>

@@ -8,8 +8,20 @@ class AddNote extends React.Component {
   render() {
     const {
       onClickGoBack,
-      onClickCancel
+      onClickCancel,
+      folders
     } = this.props;
+
+    const folderOption = folders.map(folder => {
+      return (
+        <option
+          value={folder.name}
+          id={folder.name}
+        >
+          {folder.name}
+        </option>
+      )
+    })
 
     return (
       <div className="wrapper-addnote">
@@ -59,12 +71,13 @@ class AddNote extends React.Component {
                   htmlFor="notefolder">
                   Folder
                 </label><br />
-                <input
-                  type="text"
+                <select
                   name="notefolder"
                   id="notefolder"
                   required
-                />
+                >
+                  {folderOption}
+                </select>
               </div>
               <div className="addnote-buttons">
                 <button

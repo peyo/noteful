@@ -1,11 +1,13 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import Store from "./Store";
+import NotefulContext from "./00-NotefulContext";
 
 class Note extends React.Component {
+  static contextType = NotefulContext;
+
   render() {
-    const note = Store.notes.find(note => note.id === this.props.id)
-    const folder = Store.folders.find(folder => folder.id === note.folderId)
+    const note = this.context.notes.find(note => note.id === this.props.match.params.id)
+    const folder = this.context.folders.find(folder => folder.id === note.folderId)
 
     return (
       <div className="wrapper-note">

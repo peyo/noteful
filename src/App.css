@@ -62,7 +62,7 @@ header {
   padding-bottom: 0;
 }
 
-.folder-button, .main-sidebar-button, .go-back-button, input, textarea, .note-button, .main-page-button, .note-item {
+.folder-button, .main-sidebar-button, .go-back-button, input, select, textarea, .note-button, .main-page-button, .note-item {
   border: 1px solid black;
   background-color: #7EF600;
   padding: 3px;
@@ -71,8 +71,16 @@ header {
   border-radius: .5em;
 }
 
-.note-item, input, textarea {
+.note-item, input, textarea, select {
   background-color: white;
+}
+
+input, .textarea {
+  width: 300px;
+}
+
+.textarea {
+  height: 180px;
 }
 
 .main-page-button {
@@ -135,15 +143,6 @@ header {
 
 .addfolder-foldername, .addnote-notename, .addnote-notecontent, .addnote-notefolder {
   margin: 0 0 21px 0;
-}
-
-input, .textarea {
-  width: 300px;
-  border: 1px solid black;
-}
-
-.textarea {
-  height: 180px;
 }
 
 @media only screen and (max-width: 660px) {

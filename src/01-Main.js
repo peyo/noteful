@@ -1,14 +1,17 @@
 import React from "react";
-import Store from "./Store";
+//import Store from "./Store";
+import NotefulContext from "./00-NotefulContext";
 import { Link } from "react-router-dom";
 
 class Main extends React.Component {
+  static contextType = NotefulContext;
+
   render() {
     return (
       <div className="wrapper-main">
         <div className="main-sidebar">
           <ul className="folderlist">
-            {Store.folders.map(folder =>
+            {this.context.folders.map(folder =>
               <li
                 key={folder.id}
                 className="folder-li">
@@ -32,7 +35,7 @@ class Main extends React.Component {
         </div>
         <div className="main-page">
           <ul className="main-page-list">
-            {Store.notes.map(note =>
+            {this.context.notes.map(note =>
               <li
                 key={note.id}
                 className="note-item">
