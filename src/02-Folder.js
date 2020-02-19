@@ -5,6 +5,23 @@ import NotefulContext from "./00-NotefulContext";
 class Folder extends React.Component {
   static contextType = NotefulContext;
 
+  onDeleteNote(noteId, callback) {
+    fetch(`http://localhost:9090/notes/${noteId}`, {
+      method: "DELETE",
+      headers: {
+        "content-type": "application/json"
+      }
+    })
+      .then(res => {
+        if (!res.ok) {
+          throw new Error(res.status);
+        }
+        return res.json();
+      })
+      .then(data => callback(noteId))
+      .catch(error => this.setState({ error }));
+  }
+
   render() {
     return (
       <div className="wrapper-folder">
@@ -48,7 +65,8 @@ class Folder extends React.Component {
                     {note.modified}
                   </div>
                   <button
-                    className="note-button">
+                    className="note-button"
+                    onClick={() => this.onDeleteNote(note.id, this.context.onDeleteNote)}>
                     Delete Note
                   </button>
                 </li>
