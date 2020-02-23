@@ -84,35 +84,19 @@ class App extends React.Component {
             <Route
               exact
               path="/"
-              render={() => (
-                <ErrorBoundary>
-                  <Main />
-                </ErrorBoundary>
-              )}
+              component={Main}
             />
             <Route
               path={`/folder/:folderId`}
-              render={() => (
-                <ErrorBoundary>
-                  <Folder />
-                </ErrorBoundary>
-          )}
-        />
+              component={Folder}
+            />
             <Route
               path={`/note/:id`}
-              render={() => (
-                <ErrorBoundary>
-                  <Note />
-                </ErrorBoundary>
-              )}
+              component={Note}
             />
             <Route
               path="/addfolder"
-              render={() => (
-                <ErrorBoundary>
-                  <AddFolder />
-                </ErrorBoundary>
-              )}
+              component={AddFolder}
             />
             <Route
               path="/addnote"

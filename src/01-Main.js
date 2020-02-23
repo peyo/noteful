@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 
 class Main extends React.Component {
   static contextType = NotefulContext;
-  
+
   onDeleteNote(noteId, callback) {
     fetch(`http://localhost:9090/notes/${noteId}`, {
       method: "DELETE",
@@ -23,7 +23,6 @@ class Main extends React.Component {
   }
 
   render() {
-
     return (
       <div className="wrapper-main">
         <div className="main-sidebar">
