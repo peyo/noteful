@@ -62,9 +62,18 @@ header {
   padding-bottom: 0;
 }
 
-.folder-button, .main-sidebar-button, .go-back-button, input, select, textarea, .note-button, .main-page-button, .note-item {
+.folder-button, .main-sidebar-button, input, select, textarea, .note-item {
   border: 1px solid black;
   background-color: #7EF600;
+  padding: 3px;
+  font-size: medium;
+  text-decoration: none;
+  border-radius: .5em;
+}
+
+.add-folder-button, .note-button, .main-page-button, .go-back-button {
+  border: 1px solid black;
+  background-color: #00F0F6;
   padding: 3px;
   font-size: medium;
   text-decoration: none;

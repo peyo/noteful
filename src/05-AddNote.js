@@ -1,22 +1,80 @@
 import React from "react";
 import { withRouter } from "react-router-dom";
+import NotefulContext from "./00-NotefulContext";
 
 class AddNote extends React.Component {
-  static defaultProps = {
-    onClickAddFolder: () => { }
+  static contextType = NotefulContext;
+  onClickGoBack() {
+    this.props.history.goBack()
   }
+
+  onClickCancel() {
+    this.props.history.goBack()
+  }
+
+  create_UUID() {
+    let dt = new Date().getTime();
+    let uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+      let r = (dt + Math.random() * 16) % 16 | 0;
+      dt = Math.floor(dt / 16);
+      return (c === 'x' ? r : ((r & 0x3) | 0x8)).toString(16);
+    });
+    return uuid
+  }
+
+  handleSubmit(e) {
+    e.preventDefault()
+
+    const note = {
+      id: this.create_UUID(),
+      name: e.target.name.value,
+      modified: new Date(),
+      folderId: e.target.folderId.value,
+      content: e.target.content.value
+    };
+
+    const apiUrl = "http://localhost:9090/notes";
+    const options = {
+      method: "POST",
+      body: JSON.stringify(note),
+      headers: {
+        "Content-Type": "application/json",
+      }
+    };
+
+    fetch(apiUrl, options)
+      .then(res => {
+        if (!res.ok) {
+          throw new Error('Something went wrong. Try again later.');
+        }
+        return res.json();
+      })
+      .then((note) => {
+        this.setState({
+          name: "",
+          folderId: "",
+          content: ""
+        });
+        this.context.onAddNote(note);
+      })
+      .catch(err => {
+        this.setState({
+          error: err.message
+        });
+      });
+  }
+
   render() {
     const {
-      onClickGoBack,
-      onClickCancel,
       folders
-    } = this.props;
+    } = this.context;
 
     const folderOption = folders.map(folder => {
       return (
         <option
-          value={folder.name}
-          id={folder.name}
+          value={folder.id}
+          folderid={folder.folderId}
+          key={folder.id}
         >
           {folder.name}
         </option>
@@ -28,8 +86,8 @@ class AddNote extends React.Component {
         <div className="main-sidebar">
           <div className="main-sidebar-go-back-button">
             <button
-              onClick={onClickGoBack}
-              className="main-sidebar-button">
+              onClick={() => this.onClickGoBack()}
+              className="go-back-button">
               Go Back
             </button>
           </div>
@@ -38,7 +96,7 @@ class AddNote extends React.Component {
           <div className="main-page-list-addnote">
             <form
               className="addnote-form"
-              onSubmit={this.handleSubmit}>
+              onSubmit={e => this.handleSubmit(e)}>
               <div className="addnote-notename">
                 <label
                   className="label"
@@ -47,8 +105,8 @@ class AddNote extends React.Component {
                 </label><br />
                 <input
                   type="text"
-                  name="notename"
-                  id="notename"
+                  name="name"
+                  id="name"
                   required
                 />
               </div>
@@ -60,8 +118,8 @@ class AddNote extends React.Component {
                 </label><br />
                 <textarea
                   className="textarea"
-                  name="notecontent"
-                  id="notecontent"
+                  name="content"
+                  id="content"
                   required
                 />
               </div>
@@ -72,8 +130,8 @@ class AddNote extends React.Component {
                   Folder
                 </label><br />
                 <select
-                  name="notefolder"
-                  id="notefolder"
+                  name="folderId"
+                  id="folderId"
                   required
                 >
                   {folderOption}
@@ -89,7 +147,7 @@ class AddNote extends React.Component {
                 <button
                   className="go-back-button"
                   type="button"
-                  onClick={onClickCancel}>
+                  onClick={() => this.onClickCancel()}>
                   Cancel
                 </button>
               </div>

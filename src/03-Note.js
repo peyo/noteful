@@ -35,7 +35,7 @@ class Note extends React.Component {
           <div className="main-sidebar-button-div">
             <Link
               to={`/folder/${folder.id}`}
-              className="main-sidebar-button">
+              className="go-back-button">
               Go Back
             </Link>
           </div>

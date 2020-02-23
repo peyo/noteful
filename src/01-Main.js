@@ -1,11 +1,10 @@
 import React from "react";
-//import Store from "./Store";
 import NotefulContext from "./00-NotefulContext";
 import { Link } from "react-router-dom";
 
 class Main extends React.Component {
   static contextType = NotefulContext;
-
+  
   onDeleteNote(noteId, callback) {
     fetch(`http://localhost:9090/notes/${noteId}`, {
       method: "DELETE",
@@ -24,6 +23,7 @@ class Main extends React.Component {
   }
 
   render() {
+
     return (
       <div className="wrapper-main">
         <div className="main-sidebar">
@@ -39,7 +39,7 @@ class Main extends React.Component {
             ))}
           </ul>
           <div className="main-sidebar-button-div">
-            <Link to={"/addfolder"} className="main-sidebar-button">
+            <Link to={"/addfolder"} className="add-folder-button">
               Add Folder
             </Link>
           </div>

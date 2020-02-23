@@ -44,7 +44,7 @@ class Folder extends React.Component {
           <div className="main-sidebar-button-div">
             <Link
               to={"/addfolder"}
-              className="main-sidebar-button" >
+              className="add-folder-button" >
               Add Folder
             </Link>
           </div>

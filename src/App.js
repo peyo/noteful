@@ -6,6 +6,7 @@ import Note from "./03-Note";
 import AddFolder from "./04-AddFolder";
 import AddNote from "./05-AddNote";
 import NotefulContext from "./00-NotefulContext";
+import ErrorBoundary from "./06-ErrorBoundary";
 import "./App.css";
 
 class App extends React.Component {
@@ -18,6 +19,20 @@ class App extends React.Component {
     const newNotes = this.state.notes.filter(note => note.id !== noteId)
     this.setState({
       notes: newNotes
+    })
+  }
+
+  onAddFolder = folder => {
+    console.log(folder)
+    this.setState({
+      folders: [...this.state.folders, folder]
+    })
+  }
+
+  onAddNote = note => {
+    console.log(note)
+    this.setState({
+      notes: [...this.state.notes, note]
     })
   }
 
@@ -51,7 +66,9 @@ class App extends React.Component {
     const contextValue = {
       folders: this.state.folders,
       notes: this.state.notes || [],
-      onDeleteNote: this.onDeleteNote
+      onDeleteNote: this.onDeleteNote,
+      onAddFolder: this.onAddFolder,
+      onAddNote: this.onAddNote
     };
     return (
       <div className="App">
@@ -67,45 +84,43 @@ class App extends React.Component {
             <Route
               exact
               path="/"
-              //render={() =>
-              //  <Main />
-              //}
-              component={Main}
+              render={() => (
+                <ErrorBoundary>
+                  <Main />
+                </ErrorBoundary>
+              )}
             />
             <Route
               path={`/folder/:folderId`}
-              //render={(routerProps) =>
-              //  <Folder folderId={routerProps.match.params.folderId} />
-              //}
-              component={Folder}
-            />
+              render={() => (
+                <ErrorBoundary>
+                  <Folder />
+                </ErrorBoundary>
+          )}
+        />
             <Route
               path={`/note/:id`}
-              //render={(routerProps) =>
-              //  <Note id={routerProps.match.params.id} />
-              //}
-              component={Note}
+              render={() => (
+                <ErrorBoundary>
+                  <Note />
+                </ErrorBoundary>
+              )}
             />
             <Route
               path="/addfolder"
-              //render={({ history }) =>
-              //  <AddFolder
-              //    onClickAddFolder={this.addFolder}
-              //    onClickGoBack={() => history.goBack()}
-              //    onClickCancel={() => history.goBack()} />
-              //}
-              component={AddFolder}
+              render={() => (
+                <ErrorBoundary>
+                  <AddFolder />
+                </ErrorBoundary>
+              )}
             />
             <Route
               path="/addnote"
-              //render={({ history }) =>
-              //  <AddNote
-              //    onClickAddFolder={this.addNote}
-              //    onClickGoBack={() => history.goBack()}
-              //    onClickCancel={() => history.goBack()}
-              //    folders={this.state.folders} />
-              //}
-              component={AddNote}
+              render={() => (
+                <ErrorBoundary>
+                  <AddNote />
+                </ErrorBoundary>
+              )}
             />
           </NotefulContext.Provider>
         </main>

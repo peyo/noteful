@@ -12,6 +12,54 @@ class AddFolder extends React.Component {
   onClickCancel() {
     this.props.history.goBack()
   }
+  
+  create_UUID() {
+    let dt = new Date().getTime();
+    let uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+      let r = (dt + Math.random() * 16) % 16 | 0;
+      dt = Math.floor(dt / 16);
+      return (c === 'x' ? r : ((r & 0x3) | 0x8)).toString(16);
+    });
+      return uuid
+  }
+
+  handleSubmit(e) {
+    e.preventDefault();
+
+    const folder = {
+      id: this.create_UUID(),
+      name: e.target.name.value
+    };
+
+    const apiUrl = "http://localhost:9090/folders";
+    const options = {
+      method: "POST",
+      body: JSON.stringify(folder),
+      headers: {
+        "Content-Type": "application/json",
+      }
+    };
+
+    fetch(apiUrl, options)
+      .then(res => {
+        if (!res.ok) {
+          throw new Error('Something went wrong. Try again later.');
+        }
+        return res.json();
+      })
+      .then((folder) => {
+        this.setState({
+          id: "",
+          name: ""
+        });
+        this.context.onAddFolder(folder);
+      })
+      .catch(err => {
+        this.setState({
+          error: err.message
+        });
+      });
+  }
 
   render() {
     return (
@@ -20,7 +68,7 @@ class AddFolder extends React.Component {
           <div className="main-sidebar-go-back-button">
             <button
               onClick={() => this.onClickGoBack()}
-              className="main-sidebar-button">
+              className="go-back-button">
               Go Back
             </button>
           </div>
@@ -29,7 +77,7 @@ class AddFolder extends React.Component {
           <div className="main-page-list-addfolder">
             <form
               className="addfolder-form"
-              onSubmit={this.handleSubmit}>
+              onSubmit={e => this.handleSubmit(e)}>
               <div className="addfolder-foldername">
                 <label
                   className="label"
@@ -38,14 +86,14 @@ class AddFolder extends React.Component {
                 </label><br />
                 <input
                   type="text"
-                  name="foldername"
-                  id="foldername"
+                  name="name"
+                  id="name"
                   required
                 />
               </div>
               <div className="addfolder-buttons">
                 <button
-                  className="go-back-button"
+                  className="add-folder-button"
                   type="submit">
                   Add Folder
                 </button>
