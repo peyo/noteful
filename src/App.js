@@ -108,7 +108,6 @@ class App extends React.Component {
             />
             <Route
               path="/addfolder"
-              component={AddFolder}
               render={() => (
                 <ErrorBoundary>
                   <AddFolder />
