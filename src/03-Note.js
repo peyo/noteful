@@ -1,30 +1,35 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import NotefulContext from "./00-NotefulContext";
+import config from "./config";
 
 class Note extends React.Component {
   static contextType = NotefulContext;
 
-  onDeleteNote(noteId, callback) {
-    fetch(`http://localhost:9090/notes/${noteId}`, {
+  state = {
+    error: null,
+    notes: []
+  };
+
+  onDeleteNote(note, callback) {
+    fetch(config.API_ENDPOINT + `/api/notes/${note.id}`, {
       method: 'DELETE',
       headers: {
         "content-type": "application/json"
       }
     })
-      .then(res => {
-        if (!res.ok) {
-          throw new Error(res.status);
-        }
-        return res.json();
+      .then(data => {
+        callback(note.id)
+        this.props.history.push(`/folders/${note.folder_id}`)
       })
-      .then(data => callback(noteId))
+
       .catch(error => this.setState({ error }));
   }
 
   render() {
-    const note = this.context.notes.find(note => note.id === this.props.match.params.id) || {}
-    const folder = this.context.folders.find(folder => folder.id === note.folderId) || {}
+    const note = this.context.notes.find(note => note.id === parseInt(this.props.match.params.noteId)) || {}
+    const folder = this.context.folders.find(folder => folder.id === note.folder_id) || {}
+
 
     return (
       <div className="wrapper-note">
@@ -34,7 +39,7 @@ class Note extends React.Component {
           </div>
           <div className="main-sidebar-button-div">
             <Link
-              to={`/folder/${folder.id}`}
+              to={`/folders/${folder.id}`}
               className="go-back-button">
               Go Back
             </Link>
@@ -55,9 +60,9 @@ class Note extends React.Component {
                 className="note-button"
                 onClick={() => {
                   this.onDeleteNote(
-                    note.id,
+                    note,
                     this.context.onDeleteNote,
-                  )
+                  );
                 }}>
                 Delete Note
               </button>

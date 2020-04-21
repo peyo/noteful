@@ -1,28 +1,30 @@
 import React from "react";
 import NotefulContext from "./00-NotefulContext";
 import { Link } from "react-router-dom";
+import config from "./config";
 
 class Main extends React.Component {
   static contextType = NotefulContext;
+  state = {
+    notes: []
+  };
 
   onDeleteNote(noteId, callback) {
-    fetch(`http://localhost:9090/notes/${noteId}`, {
+    fetch(config.API_ENDPOINT + `/api/notes/${noteId}`, {
       method: "DELETE",
       headers: {
         "content-type": "application/json"
       }
     })
-      .then(res => {
-        if (!res.ok) {
-          throw new Error(res.status);
-        }
-        return res.json();
+      .then(data => {
+        callback(noteId)
+        this.context.getNotes()
       })
-      .then(data => callback(noteId))
       .catch(error => this.setState({ error }));
   }
 
   render() {
+
     return (
       <div className="wrapper-main">
         <div className="main-sidebar">
@@ -30,7 +32,10 @@ class Main extends React.Component {
             {this.context.folders.map(folder => (
               <li key={folder.id} className="folder-li">
                 <div className="folder-div">
-                  <Link to={`/folder/${folder.id}`} className="folder-button">
+                  <Link
+                    to={`/folders/${folder.id}`}
+                    className="folder-button"
+                  >
                     {folder.name}
                   </Link>
                 </div>

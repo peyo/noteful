@@ -1,24 +1,27 @@
 import React from "react";
 import { NavLink, Link } from "react-router-dom";
 import NotefulContext from "./00-NotefulContext";
+import config from "./config";
 
 class Folder extends React.Component {
   static contextType = NotefulContext;
 
+  state = {
+    error: null,
+    notes: []
+  };
+
   onDeleteNote(noteId, callback) {
-    fetch(`http://localhost:9090/notes/${noteId}`, {
+    fetch(config.API_ENDPOINT + `/api/notes/${noteId}`, {
       method: "DELETE",
       headers: {
         "content-type": "application/json"
       }
     })
-      .then(res => {
-        if (!res.ok) {
-          throw new Error(res.status);
-        }
-        return res.json();
+      .then(data => {
+        callback(noteId)
+        this.context.getNotes()
       })
-      .then(data => callback(noteId))
       .catch(error => this.setState({ error }));
   }
 
@@ -33,8 +36,9 @@ class Folder extends React.Component {
                 className="folder-li">
                 <div className="folder-div">
                   <NavLink
-                    to={`/folder/${folder.id}`}
-                    className="folder-button">
+                    to={`/folders/${folder.id}`}
+                    className="folder-button"
+                  >
                     {folder.name}
                   </NavLink>
                 </div>
@@ -52,12 +56,12 @@ class Folder extends React.Component {
         <div className="main-page">
           <ul className="main-page-list">
             {this.context.notes.map((note) =>
-              note.folderId === this.props.match.params.folderId
+              note.folder_id === parseInt(this.props.match.params.folderId)
                 ? <li
                   key={note.id}
                   className="note-item">
                   <Link
-                    to={`/note/${note.id}`}
+                    to={`/notes/${note.id}`}
                     className="note-title">
                     {note.name}
                   </Link>
@@ -66,7 +70,9 @@ class Folder extends React.Component {
                   </div>
                   <button
                     className="note-button"
-                    onClick={() => this.onDeleteNote(note.id, this.context.onDeleteNote)}>
+                    onClick={() => {
+                      this.onDeleteNote(note.id, this.context.onDeleteNote);
+                    }}>
                     Delete Note
                   </button>
                 </li>

@@ -8,6 +8,7 @@ import AddNote from "./05-AddNote";
 import NotefulContext from "./00-NotefulContext";
 import ErrorBoundary from "./06-ErrorBoundary";
 import "./App.css";
+import config from "./config";
 
 class App extends React.Component {
   state = {
@@ -23,43 +24,48 @@ class App extends React.Component {
   }
 
   onAddFolder = folder => {
-    console.log(folder)
     this.setState({
       folders: [...this.state.folders, folder]
     })
   }
 
   onAddNote = note => {
-    console.log(note)
     this.setState({
       notes: [...this.state.notes, note]
     })
   }
 
-  componentDidMount() {
-    fetch("http://localhost:9090/folders", {
+  getFolder = folder => {
+    fetch(config.API_ENDPOINT + `/api/folders`, {
       method: "GET",
     })
-    .then(res => {
-      if (!res.ok) {
-        throw new Error(res.status);
-      }
-      return res.json();
-    })
-    .then(folders => this.setState({ folders }))
-    .catch(error => this.setState({ error }));
+      .then(res => {
+        if (!res.ok) {
+          throw new Error(res.status);
+        }
+        return res.json();
+      })
+      .then(folders => this.setState({ folders }))
+      .catch(error => this.setState({ error }))
+  }
 
-    fetch("http://localhost:9090/notes", {
+  getNotes = () => {
+    fetch(config.API_ENDPOINT + `/api/notes`, {
       method: "GET",
     })
-    .then(res => {
-      if (!res.ok) {
-        throw new Error(res.status);
-      }
-      return res.json();
-    })
-    .then(notes => this.setState({ notes }))
-    .catch(error => this.setState({ error }));
+      .then(res => {
+        if (!res.ok) {
+          throw new Error(res.status);
+        }
+        return res.json();
+      })
+      .then(notes => this.setState({ notes }))
+      .catch(error => this.setState({ error }));
+  }
+
+  componentDidMount() {
+    this.getFolder()
+    this.getNotes()
   }
 
   render() {
@@ -68,7 +74,9 @@ class App extends React.Component {
       notes: this.state.notes || [],
       onDeleteNote: this.onDeleteNote,
       onAddFolder: this.onAddFolder,
-      onAddNote: this.onAddNote
+      onAddNote: this.onAddNote,
+      getFolder: this.getFolder,
+      getNotes: this.getNotes
     };
     return (
       <div className="App">
@@ -91,7 +99,7 @@ class App extends React.Component {
               )}
             />
             <Route
-              path={`/folder/:folderId`}
+              path={`/folders/:folderId`}
               render={(props) => (
                 <ErrorBoundary>
                   <Folder {...props} />
@@ -99,7 +107,7 @@ class App extends React.Component {
               )}
             />
             <Route
-              path={`/note/:id`}
+              path={`/notes/:noteId`}
               render={(props) => (
                 <ErrorBoundary>
                   <Note {...props} />

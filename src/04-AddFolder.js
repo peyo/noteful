@@ -1,10 +1,15 @@
 import React from "react";
 import { withRouter } from "react-router-dom";
 import NotefulContext from "./00-NotefulContext";
+import config from "./config";
 
 class AddFolder extends React.Component {
   static contextType = NotefulContext;
   
+  state = {
+    error: null
+  };
+
   onClickGoBack() {
     this.props.history.goBack()
   }
@@ -12,35 +17,24 @@ class AddFolder extends React.Component {
   onClickCancel() {
     this.props.history.goBack()
   }
-  
-  create_UUID() {
-    let dt = new Date().getTime();
-    let uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
-      let r = (dt + Math.random() * 16) % 16 | 0;
-      dt = Math.floor(dt / 16);
-      return (c === 'x' ? r : ((r & 0x3) | 0x8)).toString(16);
-    });
-      return uuid
-  }
 
   handleSubmit(e) {
     e.preventDefault();
 
+    const { name } = e.target
     const folder = {
-      id: this.create_UUID(),
-      name: e.target.name.value
+      name: name.value,
+      modified: new Date()
     };
+    this.setState({ error: null });
 
-    const apiUrl = "http://localhost:9090/folders";
-    const options = {
-      method: "POST",
-      body: JSON.stringify(folder),
-      headers: {
-        "Content-Type": "application/json",
-      }
-    };
-
-    fetch(apiUrl, options)
+    fetch(config.API_ENDPOINT + `/api/folders`, {
+        method: "POST",
+        body: JSON.stringify(folder),
+        headers: {
+          "Content-Type": "application/json",
+        }
+      })
       .then(res => {
         if (!res.ok) {
           throw new Error('Something went wrong. Try again later.');
@@ -48,18 +42,16 @@ class AddFolder extends React.Component {
         return res.json();
       })
       .then((folder) => {
-        this.setState({
-          id: "",
-          name: ""
-        });
+        name.value = "";
         this.context.onAddFolder(folder);
+        this.props.history.push("/");
       })
       .catch(err => {
         this.setState({
           error: err.message
-        });
-      });
-  }
+        })
+      })
+  };
 
   render() {
     return (
