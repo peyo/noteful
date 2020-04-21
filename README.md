@@ -6,6 +6,6 @@ The structure of the components can be imagined as:
 
 <pre>
 App
-└──folder
-      └──note
+└──folder--addFolder
+      └──note--addNote
 </pre>
